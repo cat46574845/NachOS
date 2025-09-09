@@ -31,7 +31,12 @@
 #define SC_ThreadYield	10
 #define SC_PrintInt	11
 #define SC_Sleep    12
-
+#define SC_Add    13
+#define SC_Sub    14
+#define SC_Mul    15
+#define SC_Div    16
+#define SC_Mod    17
+#define SC_Print  18
 #ifndef IN_ASM
 
 /* The system call interface.  These are the operations the Nachos
@@ -131,6 +136,12 @@ void ThreadYield();
 void PrintInt(int number);	//my System Call
 
 void Sleep(int msec);
+void Add(int op1, int op2);
+void Sub(int op1, int op2);
+void Mul(int op1, int op2);
+void Div(int op1, int op2);
+void Mod(int op1, int op2);
+void Print(char* strp);
 #endif /* IN_ASM */
 
 #endif /* SYSCALL_H */

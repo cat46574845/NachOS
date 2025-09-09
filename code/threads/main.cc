@@ -76,6 +76,9 @@ main(int argc, char **argv)
     DEBUG(dbgThread, "Entering main");
 
     kernel = new KernelType(argc, argv);
+    if (debug->IsEnabled(dbgMY)) {
+        cout << '[DEBUG]B11215053' << endl;
+    }
     kernel->Initialize();
     
     CallOnUserAbort(Cleanup);		// if user hits ctl-C
