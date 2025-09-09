@@ -1,4 +1,4 @@
-#include "syscall1.h"
+#include "syscall.h"
 
 main() {
     int len;
