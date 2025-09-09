@@ -53,6 +53,8 @@ ExceptionHandler(ExceptionType which)
 {
 	int	type = kernel->machine->ReadRegister(2);
 	int	val;
+	int count;
+	char buf;
 
     switch (which) {
 	case SyscallException:
@@ -113,8 +115,7 @@ ExceptionHandler(ExceptionType which)
 			return;
 		case SC_Print:
 			val = kernel->machine->ReadRegister(4);
-			int count = 0;
-			char buf = 0;
+			count = 0;
 			cout << "[B11215053_Print]";
 			
 			while (1) {
