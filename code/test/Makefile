@@ -69,9 +69,9 @@ test1: test1.o start.o
 	../bin/coff2noff test1.coff test1
 
 sleep: sleep.o start.o
-    $(LD) $(LDFLAGS) start.o sleep.o -o sleep.coff
-    ../bin/coff2noff sleep.coff sleep
+	$(LD) $(LDFLAGS) start.o sleep.o -o sleep.coff
+	../bin/coff2noff sleep.coff sleep
 
 printstr: printstr.o start.o
-    $(LD) $(LDFLAGS) start.o printstr.o -o printstr.coff
-    ../bin/coff2noff printstr.coff printstr
+	$(LD) $(LDFLAGS) start.o printstr.o -o printstr.coff
+	../bin/coff2noff printstr.coff printstr
