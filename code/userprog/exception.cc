@@ -131,7 +131,7 @@ ExceptionHandler(ExceptionType which)
 				}
 			}
 			kernel->machine->WriteRegister(2, count);
-			return
+			return;
 			
 		default:
 		    cerr << "Unexpected system call " << type << "\n";
