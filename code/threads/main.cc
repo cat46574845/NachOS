@@ -77,7 +77,7 @@ main(int argc, char **argv)
 
     kernel = new KernelType(argc, argv);
     if (debug->IsEnabled(dbgMY)) {
-        cout << '[DEBUG]B11215053' << endl;
+        cout << "[DEBUG]B11215053\n";
     }
     kernel->Initialize();
     
