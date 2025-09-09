@@ -136,12 +136,12 @@ void ThreadYield();
 void PrintInt(int number);	//my System Call
 
 void Sleep(int msec);
-void Add(int op1, int op2);
-void Sub(int op1, int op2);
-void Mul(int op1, int op2);
-void Div(int op1, int op2);
-void Mod(int op1, int op2);
-void Print(char* strp);
+int Add(int op1, int op2);
+int Sub(int op1, int op2);
+int Mul(int op1, int op2);
+int Div(int op1, int op2);
+int Mod(int op1, int op2);
+int Print(char* strp);
 #endif /* IN_ASM */
 
 #endif /* SYSCALL_H */
