@@ -51,7 +51,7 @@ void Alarm::CallBack() {
     MachineStatus status = interrupt->getStatus();
     bool woken = sleeper.wakeUp();
 
-    if (status == IdleMode && woken && sleeper.isEmpty()) { // is it time to quit?
+    if (status == IdleMode && !woken && sleeper.isEmpty()) { // is it time to quit?
         if (!interrupt->AnyFutureInterrupts()) {
             timer->Disable(); // turn off the timer
         }
