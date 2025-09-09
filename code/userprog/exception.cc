@@ -125,7 +125,7 @@ ExceptionHandler(ExceptionType which)
 
 				c = (char)buf;
 				if (c == 'b' || c == 'B') {
-					buf = '*';
+					c = '*';
 				}
 				if (c == '\0') {
 					break;
