@@ -118,7 +118,7 @@ ExceptionHandler(ExceptionType which)
 			cout << "[B11215053_Print]";
 			
 			while (1) {
-				kernel->machine->ReadMem(val, 1, &buf);
+				kernel->machine->ReadMem(val, 1, &(int)buf);
 				if (buf == 'b' || buf == 'B') {
 					buf = '*';
 				}
