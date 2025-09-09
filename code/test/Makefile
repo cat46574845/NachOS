@@ -74,5 +74,4 @@ sleep: sleep.o start.o
 
 printstr: printstr.o start.o
     $(LD) $(LDFLAGS) start.o printstr.o -o printstr.coff
-SleepFunc sleeper
-../bin/coff2noff printstr.coff printstr
+    ../bin/coff2noff printstr.coff printstr
