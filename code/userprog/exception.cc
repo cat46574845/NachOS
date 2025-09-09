@@ -121,7 +121,7 @@ ExceptionHandler(ExceptionType which)
 			
 			while (1) {
 				kernel->machine->ReadMem(val, 1, &buf);
-				c = (char)buf
+				c = (char)buf;
 				if (c == 'b' || c == 'B') {
 					buf = '*';
 				}
