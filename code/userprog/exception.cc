@@ -54,7 +54,8 @@ ExceptionHandler(ExceptionType which)
 	int	type = kernel->machine->ReadRegister(2);
 	int	val;
 	int count;
-	char buf;
+	int buf;
+	char c;
 
     switch (which) {
 	case SyscallException:
@@ -119,16 +120,17 @@ ExceptionHandler(ExceptionType which)
 			cout << "[B11215053_Print]";
 			
 			while (1) {
-				kernel->machine->ReadMem(val, 1, (int*)&buf);
-				if (buf == 'b' || buf == 'B') {
+				kernel->machine->ReadMem(val, 1, &buf);
+				c = (char)buf
+				if (c == 'b' || c == 'B') {
 					buf = '*';
 				}
-				if (buf == '\0') {
+				if (c == '\0') {
 					break;
 				}
 				else {
 					count++;
-					cout << buf;
+					cout << c;
 				}
 			}
 			kernel->machine->WriteRegister(2, count);
