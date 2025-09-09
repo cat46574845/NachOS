@@ -23,6 +23,27 @@ enum SchedulerType {
         Priority
 };
 
+class SleepFunc {
+public:
+    SleepFunc() : currentINT(0) {}
+
+    void napTime(Thread* t, int x);
+    bool wakeUp();
+    bool isEmpty();
+
+private:
+    class sleep_T {
+    public:
+        sleep_T(Thread* t, int x) : sleepThread(t), when(x) {}
+
+        Thread* sleepThread;
+        int when;
+    };
+
+    int currentINT;
+    std::list<sleep_T> T_list;
+};
+
 class Scheduler {
   public:
 	Scheduler();		// Initialize list of ready threads 
