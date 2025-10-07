@@ -21,11 +21,13 @@ enum SchedulerType {
         RR,     // Round Robin
         SJF,
         Priority,
-		FIFO
+		FIFO,
+		SRTF,
 };
 
 class Scheduler {
   public:
+	
 	Scheduler();		// Initialize list of ready threads 
 	Scheduler(SchedulerType type);
 	~Scheduler();				// De-allocate ready list

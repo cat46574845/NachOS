@@ -22,12 +22,80 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 {
     debugUserProg = FALSE;
 	execfileNum=0;
+	for (int i = 0; i < 10; i++)
+	{
+		burst[i] = 0;
+		priority[i] = 999;
+		arriv[i] = 100;
+	}
+	bool all_busrt_inited = true;
+	bool all_prio_inited = true;
+	bool all_arriv_inited = true;
     for (int i = 1; i < argc; i++) {
 			if (strcmp(argv[i], "-s") == 0) {
 			debugUserProg = TRUE;
 		}
 		else if (strcmp(argv[i], "-e") == 0) {
 			execfile[++execfileNum]= argv[i + 1];
+
+
+			bool busrt_inited = false;
+			bool prio_inited = false;
+			bool arriv_inited = false;
+
+			for (int j = 2; j <= 6 ; j+= 2)
+			{
+				if (i + j >= argc) {
+					break;
+				}
+				else if (strcmp(argv[i + j - 1], " -burst") == 0) {
+					try
+					{
+						burst[execfileNum] = atoi(argv[i + j]);
+						busrt_inited = true;
+					}
+					catch (const std::exception&)
+					{
+						break;
+					}
+				}
+				else if (strcmp(argv[i + j - 1], " -prio") == 0) {
+					try
+					{
+						priority[execfileNum] = atoi(argv[i + j]);
+						prio_inited = true;
+					}
+					catch (const std::exception&)
+					{
+						break;
+					}
+				}
+				else if (strcmp(argv[i + j - 1], " -arriv") == 0) {
+					try
+					{
+						arriv_inited[execfileNum] = atoi(argv[i + j]);
+						prio_inited = true;
+					}
+					catch (const std::exception&)
+					{
+						break;
+					}
+				}
+				else {
+					break;
+				}
+			}
+			if ((i + 2 < argc) && strcmp(argv[i + 1], " -burst") == 0) {
+				try
+				{
+					burst[execfileNum] = atoi(argv[i + 2]);
+				}
+				catch (const std::exception&){}
+			}
+			
+			if (!busrt_inited){ all_busrt_inited = false; }
+			if (!prio_inited) { all_prio_inited = false; }
+			if (!arriv_inited) { all_arriv_inited = false; }
 		}
 			else if (strcmp(argv[i], "-u") == 0) {
 			cout << "===========The following argument is defined in userkernel.cc" << endl;
@@ -44,6 +112,37 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 			cout << "	./nachos -e file1 -e file2 : executing file1 and file2."  << endl;
 		}
     }
+	
+	switch (type)
+	{
+	case RR:
+		//pass
+		break;
+	case SJF:
+		if (!all_busrt_inited) {
+			cout << '[Warning]: ぶ祘アBurst把计, ┮ΤアBurst盢ㄏノ箇砞0' << endl;
+		}
+		break;
+	case Priority:
+		if (!all_prio_inited) {
+			cout << '[Warning]: ぶ祘アPriority把计, ┮ΤアPriority盢ㄏノ箇砞999' << endl;
+		}
+		break;
+	case FIFO:
+		// pass
+		break;
+	case SRTF:
+		if (!all_prio_inited) {
+			cout << '[Warning]: ぶ祘アPriority把计, ┮ΤアPriority盢ㄏノ箇砞999' << endl;
+		}
+		if (!all_arriv_inited) {
+			cout << '[Warning]: ぶ祘アArrive把计, ┮ΤアArrive盢ㄏノ箇砞100' << endl;
+		}
+		break;
+	default:
+		// pass
+		break;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -95,10 +194,18 @@ UserProgKernel::Run()
 	cout << "Total threads number is " << execfileNum << endl;
 	for (int n=1;n<=execfileNum;n++)
 		{
-		t[n] = new Thread(execfile[n]);
-		t[n]->space = new AddrSpace();
-		t[n]->Fork((VoidFunctionPtr) &ForkExecute, (void *)t[n]);
-		cout << "Thread " << execfile[n] << " is executing." << endl;
+			t[n] = new Thread(execfile[n]);
+			t[n]->setBurstTime(burst[n]);
+			if (type == FIFO) {
+				t[n]->setPriority(n);
+			}
+			else {
+				t[n]->setPriority(priority[n]);
+			}
+			t[n]->arrive = arriv[n];
+			t[n]->space = new AddrSpace();
+			t[n]->Fork((VoidFunctionPtr) &ForkExecute, (void *)t[n]);
+			cout << "Thread " << execfile[n] << " is executing." << endl;
 		}
 //	Thread *t1 = new Thread(execfile[1]);
 //	Thread *t1 = new Thread("../test/test1");

@@ -35,8 +35,9 @@
 //      "toCall" is the interrupt handler to call when the timer expires.
 //----------------------------------------------------------------------
 
-Timer::Timer(bool doRandom, CallBackObj *toCall)
+Timer::Timer(bool doRandom, CallBackObj *toCall, int tick_)
 {
+    tick = tick_;
     randomize = doRandom;
     callPeriodically = toCall;
     disable = FALSE;
@@ -70,11 +71,11 @@ void
 Timer::SetInterrupt() 
 {
     if (!disable) {
-       int delay = TimerTicks;
+       int delay = tick;
     
        if (randomize) {
-	     delay = 1 + (RandomNumber() % (TimerTicks * 2));
-        }
+	     delay = 1 + (RandomNumber() % (tick * 2));
+       }
        // schedule the next timer device interrupt
        kernel->interrupt->Schedule(this, delay, TimerInt);
     }

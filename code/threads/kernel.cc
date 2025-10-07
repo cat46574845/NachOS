@@ -26,6 +26,7 @@ ThreadedKernel::ThreadedKernel(int argc, char **argv)
 {
     randomSlice = FALSE; 
     type = RR;
+    tt = 100;
 
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "-rs") == 0) {
@@ -47,6 +48,14 @@ ThreadedKernel::ThreadedKernel(int argc, char **argv)
                 type = Priority;
             } else if (strcmp(argv[i + 1], "SJF") == 0) {
                 type = SJF;
+            }
+        }
+        else if (strcmp(argv[i], "-timertick") == 0) {
+            if (!(i + 1 < argc)) {
+                cout << "Partial usage: nachos [-timertick int]\n";
+            }
+            else{
+                tt = atoi(argv[i + 1];
             }
         }
     }

@@ -20,9 +20,9 @@
 //		occur at random, instead of fixed, intervals.
 //----------------------------------------------------------------------
 
-Alarm::Alarm(bool doRandom)
+Alarm::Alarm(bool doRandom, int tt)
 {
-    timer = new Timer(doRandom, this);
+    timer = new Timer(doRandom, this, tt);
 }
 
 //----------------------------------------------------------------------

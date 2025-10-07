@@ -31,7 +31,16 @@ int PriorityCompare(Thread *a, Thread *b) {
         return 0;
     return a->getPriority() > b->getPriority() ? 1 : -1;
 }
-
+int BurstCompare(Thread* a, Thread* b) {
+    if (a->getBurstTime() == b->getBurstTime())
+        return 0;
+    return a->getBurstTime() > b->getBurstTime() ? 1 : -1;
+}
+int ArriveCompare(Thread* a, Thread* b) {
+    if (a->arrive == b->arrive)
+        return 0;
+    return a->arrive > b->arrive ? 1 : -1;
+}
 //----------------------------------------------------------------------
 // Scheduler::Scheduler
 // 	Initialize the list of ready but not running threads.
@@ -45,19 +54,23 @@ Scheduler::Scheduler()
 
 Scheduler::Scheduler(SchedulerType type)
 {
+    
 	schedulerType = type;
 	switch(schedulerType) {
     	case RR:
         	readyList = new List<Thread *>;
         	break;
     	case SJF:
-		    /* todo */
+            readyList = new SortedList<Thread*>(BurstCompare);
         	break;
     	case Priority:
-		    readyList = new SortedList<Thread *>(PriorityCompare);
+            readyList = new SortedList<Thread*>(PriorityCompare);
         	break;
     	case FIFO:
-            /* todo */
+            readyList = new SortedList<Thread*>(PriorityCompare);
+            break;
+        case SRTF:
+            readyList = new SortedList<Thread*>(ArriveCompare);
             break;
    	}
 	toBeDestroyed = NULL;
@@ -154,15 +167,16 @@ Scheduler::Run (Thread *nextThread, bool finishing)
 
     kernel->currentThread = nextThread;  // switch to the next thread
     nextThread->setStatus(RUNNING);      // nextThread is now running
-    
+    nextThread->last_start_user_tick = kernel->stats->userTicks;
     DEBUG(dbgThread, "Switching from: " << oldThread->getName() << " to: " << nextThread->getName());
     
     // This is a machine-dependent assembly language routine defined 
     // in switch.s.  You may have to think
     // a bit to figure out what happens after this, both from the point
     // of view of the thread and from the perspective of the "outside world".
-
+    
     SWITCH(oldThread, nextThread);
+    nextThread->arrive -= kernel->stats->userTicks - nextThread->last_start_user_tick;
 
     // we're back, running oldThread
       
