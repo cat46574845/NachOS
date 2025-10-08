@@ -55,7 +55,7 @@ ThreadedKernel::ThreadedKernel(int argc, char **argv)
                 cout << "Partial usage: nachos [-timertick int]\n";
             }
             else{
-                tt = atoi(argv[i + 1];
+                tt = atoi(argv[i + 1]);
             }
         }
     }
