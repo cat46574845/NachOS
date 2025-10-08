@@ -73,8 +73,6 @@ void Alarm::WaitUntil(int x) {
 }
 
 void Alarm::SleepThis(int x, Thread* t) {
-    IntStatus oldLevel = kernel->interrupt->SetLevel(IntOff);
-    cout << "Alarm::waitUntil go sleep" << endl;
-    sleeper.napTime(t, x);
-    kernel->interrupt->SetLevel(oldLevel);
+    cout << "Alarm::SleepOtherThread" << endl;
+    sleeper.napTimeNotCurrentThread(t, x);
 }

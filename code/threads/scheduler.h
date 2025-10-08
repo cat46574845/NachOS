@@ -30,6 +30,8 @@ public:
     SleepFunc() : currentINT(0) {}
 
     void napTime(Thread* t, int x);
+    void napTimeNotCurrentThread(Thread* t, int x);
+    
     bool wakeUp();
     bool isEmpty();
 

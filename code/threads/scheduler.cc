@@ -231,7 +231,9 @@ void SleepFunc::napTime(Thread* t, int x) {
     T_list.push_back(sleep_T(t, currentINT + x));
     t->Sleep(false);
 }
-
+void SleepFunc::napTimeNotCurrentThread(Thread* t, int x) {
+    T_list.push_back(sleep_T(t, currentINT + x));
+}
 bool SleepFunc::wakeUp() {
     bool woken = false;
     currentINT++;
