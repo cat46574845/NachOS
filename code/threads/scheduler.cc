@@ -54,7 +54,7 @@ Scheduler::Scheduler()
 
 Scheduler::Scheduler(SchedulerType type)
 {
-    
+    cout << "Scheduler Init With Mode: " << schedulerType << endl;
 	schedulerType = type;
 	switch(schedulerType) {
     	case RR:
