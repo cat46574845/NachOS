@@ -57,27 +57,7 @@ void Alarm::CallBack() {
         if (!interrupt->AnyFutureInterrupts()) {
             timer->Disable(); // turn off the timer
         }
-        else {
-            interrupt->YieldOnReturn(); // there's someone to preempt
-        }
-    }
-
-    if (status == IdleMode && !woken && sleeper.isEmpty()) { // is it time to quit?
-    
-    kernel->currentThread->setPriority(kernel->currentThread->getPriority() - 1);
-    if (status == IdleMode) {	// is it time to quit?
-        if (!interrupt->AnyFutureInterrupts()) {
-	    timer->Disable();	// turn off the timer
-	}
-    } else {			// there's someone to preempt
-	if(kernel->scheduler->getSchedulerType() == RR || kernel->scheduler->getSchedulerType() == SRTF) {
-		interrupt->YieldOnReturn();
-	}
-    }
-}
-            timer->Disable(); // turn off the timer
-        }
-        else {
+        else if(kernel->scheduler->getSchedulerType() == RR || kernel->scheduler->getSchedulerType() == SRTF){
             interrupt->YieldOnReturn(); // there's someone to preempt
         }
     }
@@ -92,3 +72,9 @@ void Alarm::WaitUntil(int x) {
     kernel->interrupt->SetLevel(oldLevel);
 }
 
+void Alarm::SleepThis(int x, Thread* t) {
+    IntStatus oldLevel = kernel->interrupt->SetLevel(IntOff);
+    cout << "Alarm::waitUntil go sleep" << endl;
+    sleeper.napTime(t, x);
+    kernel->interrupt->SetLevel(oldLevel);
+}

@@ -26,7 +26,7 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 	{
 		burst[i] = 0;
 		priority[i] = 999;
-		arriv[i] = 100;
+		arriv[i] = 0;
 	}
 	bool all_busrt_inited = true;
 	bool all_prio_inited = true;
@@ -120,12 +120,12 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 		break;
 	case SJF:
 		if (!all_busrt_inited) {
-			cout << '[Warning]: ぶ祘アBurst把计, ┮ΤアBurst盢ㄏノ箇砞0' << endl;
+			cout << "[Warning]: ぶ祘アBurst把计, ┮ΤアBurst盢ㄏノ箇砞0" << endl;
 		}
 		break;
 	case Priority:
 		if (!all_prio_inited) {
-			cout << '[Warning]: ぶ祘アPriority把计, ┮ΤアPriority盢ㄏノ箇砞999' << endl;
+			cout << "[Warning]: ぶ祘アPriority把计, ┮ΤアPriority盢ㄏノ箇砞999" << endl;
 		}
 		break;
 	case FIFO:
@@ -133,10 +133,10 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 		break;
 	case SRTF:
 		if (!all_prio_inited) {
-			cout << '[Warning]: ぶ祘アPriority把计, ┮ΤアPriority盢ㄏノ箇砞999' << endl;
+			cout << "[Warning]: ぶ祘アPriority把计, ┮ΤアPriority盢ㄏノ箇砞999" << endl;
 		}
 		if (!all_arriv_inited) {
-			cout << '[Warning]: ぶ祘アArrive把计, ┮ΤアArrive盢ㄏノ箇砞100' << endl;
+			cout << "[Warning]: ぶ祘アArrive把计, ┮ΤアArrive盢ㄏノ箇砞0" << endl;
 		}
 		break;
 	default:
@@ -202,7 +202,9 @@ UserProgKernel::Run()
 			else {
 				t[n]->setPriority(priority[n]);
 			}
-			t[n]->arrive = arriv[n];
+			if (arriv[n]) {
+				kernel->alarm->SleepThis(arriv[n], t[n]);
+			}
 			t[n]->space = new AddrSpace();
 			t[n]->Fork((VoidFunctionPtr) &ForkExecute, (void *)t[n]);
 			cout << "Thread " << execfile[n] << " is executing." << endl;

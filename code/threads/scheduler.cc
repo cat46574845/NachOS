@@ -38,12 +38,6 @@ int BurstCompare(Thread* a, Thread* b) {
         return 0;
     return a->getBurstTime() > b->getBurstTime() ? 1 : -1;
 }
-int ArriveCompare(Thread* a, Thread* b) {
-    cout << "Compare Arrive Between: " << a->getName() << "=" << a->arrive << " and " << b->getName() << "=" << b->arrive << endl;
-    if (a->arrive == b->arrive)
-        return 0;
-    return a->arrive > b->arrive ? 1 : -1;
-}
 //----------------------------------------------------------------------
 // Scheduler::Scheduler
 // 	Initialize the list of ready but not running threads.
@@ -73,7 +67,7 @@ Scheduler::Scheduler(SchedulerType type)
             readyList = new SortedList<Thread*>(PriorityCompare);
             break;
         case SRTF:
-            readyList = new SortedList<Thread*>(ArriveCompare);
+            readyList = new SortedList<Thread*>(BurstCompare);
             break;
    	}
 	toBeDestroyed = NULL;
@@ -179,8 +173,7 @@ Scheduler::Run (Thread *nextThread, bool finishing)
     // of view of the thread and from the perspective of the "outside world".
     
     SWITCH(oldThread, nextThread);
-    nextThread->arrive -= kernel->stats->userTicks - nextThread->last_start_user_tick;
-
+    nextThread->setBurstTime(nextThread->getBurstTime() - (kernel->stats->userTicks - nextThread->last_start_user_tick));
     // we're back, running oldThread
       
     // interrupts are off when we return from switch!
