@@ -50,6 +50,17 @@ void Alarm::CallBack() {
     Interrupt* interrupt = kernel->interrupt;
     MachineStatus status = interrupt->getStatus();
     bool woken = sleeper.wakeUp();
+    if (kernel->scheduler->getSchedulerType() == RR) {
+        kernel->currentThread->setPriority(kernel->currentThread->getPriority() - 1);
+    }
+    if (status == IdleMode && !woken && sleeper.isEmpty()) { // is it time to quit?
+        if (!interrupt->AnyFutureInterrupts()) {
+            timer->Disable(); // turn off the timer
+        }
+        else {
+            interrupt->YieldOnReturn(); // there's someone to preempt
+        }
+    }
 
     if (status == IdleMode && !woken && sleeper.isEmpty()) { // is it time to quit?
     
