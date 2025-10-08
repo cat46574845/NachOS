@@ -29,6 +29,7 @@ ThreadedKernel::ThreadedKernel(int argc, char **argv)
     tt = 100;
 
     for (int i = 1; i < argc; i++) {
+        cout << "ReadParam: " << argv[i] << endl;
         if (strcmp(argv[i], "-rs") == 0) {
  	    ASSERT(i + 1 < argc);
 	    RandomInit(atoi(argv[i + 1]));// initialize pseudo-random
