@@ -73,7 +73,7 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 				else if (strcmp(argv[i + j - 1], " -arriv") == 0) {
 					try
 					{
-						arriv_inited[execfileNum] = atoi(argv[i + j]);
+						arriv[execfileNum] = atoi(argv[i + j]);
 						prio_inited = true;
 					}
 					catch (const std::exception&)
