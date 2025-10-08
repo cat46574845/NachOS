@@ -31,7 +31,7 @@ class Alarm : public CallBackObj {
     ~Alarm() { delete timer; }
     
     void WaitUntil(int x);	// suspend execution until time > now + x
-    vold SleepThis(int x, Thread* t);
+    void SleepThis(int x, Thread* t);
   private:
     Timer *timer;		// the hardware timer device
     int tt;
