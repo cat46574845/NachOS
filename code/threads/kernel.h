@@ -42,10 +42,10 @@ class ThreadedKernel {
     Statistics *stats;		// performance metrics
     Alarm *alarm;		// the software alarm clock    
 
+    SchedulerType type;
   private:
     bool randomSlice;		// enable pseudo-random time slicing
     int tt;
-    SchedulerType type;
 };
 
 
