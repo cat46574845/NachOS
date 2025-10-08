@@ -153,7 +153,7 @@ Thread::Begin ()
     
     kernel->scheduler->CheckToBeDestroyed();
     kernel->alarm->WaitUntil(100);
-    //kernel->interrupt->Enable();
+    kernel->interrupt->Enable();
     //Sleep(false);
 }
 
