@@ -48,7 +48,7 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 				if (i + j >= argc) {
 					break;
 				}
-				else if (strcmp(argv[i + j - 1], " -burst") == 0) {
+				else if (strcmp(argv[i + j - 1], "-burst") == 0) {
 					try
 					{
 						burst[execfileNum] = atoi(argv[i + j]);
@@ -59,7 +59,7 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 						break;
 					}
 				}
-				else if (strcmp(argv[i + j - 1], " -prio") == 0) {
+				else if (strcmp(argv[i + j - 1], "-prio") == 0) {
 					try
 					{
 						priority[execfileNum] = atoi(argv[i + j]);
@@ -70,7 +70,7 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 						break;
 					}
 				}
-				else if (strcmp(argv[i + j - 1], " -arriv") == 0) {
+				else if (strcmp(argv[i + j - 1], "-arriv") == 0) {
 					try
 					{
 						arriv[execfileNum] = atoi(argv[i + j]);
