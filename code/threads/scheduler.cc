@@ -27,16 +27,19 @@
 // Compare function
 //----------------------------------------------------------------------
 int PriorityCompare(Thread *a, Thread *b) {
+    cout << "Compare Priority Between: " << a->getName() << " and " << b->getName() << endl;
     if(a->getPriority() == b->getPriority())
         return 0;
     return a->getPriority() > b->getPriority() ? 1 : -1;
 }
 int BurstCompare(Thread* a, Thread* b) {
+    cout << "Compare Burst Between: " << a->getName() << " and " << b->getName() << endl;
     if (a->getBurstTime() == b->getBurstTime())
         return 0;
     return a->getBurstTime() > b->getBurstTime() ? 1 : -1;
 }
 int ArriveCompare(Thread* a, Thread* b) {
+    cout << "Compare Arrive Between: " << a->getName() << " and " << b->getName() << endl;
     if (a->arrive == b->arrive)
         return 0;
     return a->arrive > b->arrive ? 1 : -1;
@@ -54,7 +57,7 @@ Scheduler::Scheduler()
 
 Scheduler::Scheduler(SchedulerType type)
 {
-    cout << "Scheduler Init With Mode: " << schedulerType << endl;
+    cout << "Scheduler Init With Mode: " << type << endl;
 	schedulerType = type;
 	switch(schedulerType) {
     	case RR:
