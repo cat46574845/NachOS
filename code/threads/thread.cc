@@ -152,8 +152,8 @@ Thread::Begin ()
     DEBUG(dbgThread, "Beginning thread: " << name);
     
     kernel->scheduler->CheckToBeDestroyed();
-    //kernel->interrupt->Enable();
     kernel->alarm->WaitUntil(100);
+    //kernel->interrupt->Enable();
     //Sleep(false);
 }
 
@@ -249,6 +249,9 @@ Thread::Sleep (bool finishing)
     ASSERT(kernel->interrupt->getLevel() == IntOff);
     
     DEBUG(dbgThread, "Sleeping thread: " << name);
+
+    DEBUG(dbgThread, "Current Pending Empty: " << kernel->scheduler->readyList->IsEmpty());
+
 
     status = BLOCKED;
     while ((nextThread = kernel->scheduler->FindNextToRun()) == NULL)
