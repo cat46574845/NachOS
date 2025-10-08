@@ -152,7 +152,7 @@ Thread::Begin ()
     DEBUG(dbgThread, "Beginning thread: " << name);
     
     kernel->scheduler->CheckToBeDestroyed();
-    kernel->interrupt->Enable();
+    //kernel->interrupt->Enable();
     Sleep(false);
 }
 
