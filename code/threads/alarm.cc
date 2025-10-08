@@ -57,9 +57,8 @@ void Alarm::CallBack() {
         if (!interrupt->AnyFutureInterrupts()) {
             timer->Disable(); // turn off the timer
         }
-        else if(kernel->scheduler->getSchedulerType() == RR || kernel->scheduler->getSchedulerType() == SRTF){
-            interrupt->YieldOnReturn(); // there's someone to preempt
-        }
+    }else if(kernel->scheduler->getSchedulerType() == RR || kernel->scheduler->getSchedulerType() == SRTF){
+        interrupt->YieldOnReturn(); // there's someone to preempt
     }
 }
 
