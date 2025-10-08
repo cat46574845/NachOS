@@ -37,7 +37,7 @@
 
 Timer::Timer(bool doRandom, CallBackObj *toCall, int tick_)
 {
-    cout << '[DEBUG]TimerTickIs: ' << tick_ << endl;
+    cout << "[DEBUG]TimerTickIs: " << tick_ << endl;
     tick = tick_;
     randomize = doRandom;
     callPeriodically = toCall;

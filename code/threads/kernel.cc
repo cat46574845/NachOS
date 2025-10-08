@@ -71,7 +71,7 @@ ThreadedKernel::ThreadedKernel(int argc, char **argv)
 void
 ThreadedKernel::Initialize()
 {
-    cout << 'ThreadedKernel::Initialize' << endl;
+    cout << "ThreadedKernel::Initialize" << endl;
 
     stats = new Statistics();		// collect statistics
     interrupt = new Interrupt;		// start up interrupt handling
