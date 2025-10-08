@@ -43,7 +43,7 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 			bool prio_inited = false;
 			bool arriv_inited = false;
 
-			for (int j = 2; j <= 6 ; j+= 2)
+			for (int j = 3; j <= 7 ; j+= 2)
 			{
 				if (i + j >= argc) {
 					break;
