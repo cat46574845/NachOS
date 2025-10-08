@@ -46,11 +46,12 @@ Alarm::Alarm(bool doRandom, int tt)
 //	interrupts.  In this case, we can safely halt.
 //----------------------------------------------------------------------
 
-void 
-Alarm::CallBack() 
-{
-    Interrupt *interrupt = kernel->interrupt;
+void Alarm::CallBack() {
+    Interrupt* interrupt = kernel->interrupt;
     MachineStatus status = interrupt->getStatus();
+    bool woken = sleeper.wakeUp();
+
+    if (status == IdleMode && !woken && sleeper.isEmpty()) { // is it time to quit?
     
     kernel->currentThread->setPriority(kernel->currentThread->getPriority() - 1);
     if (status == IdleMode) {	// is it time to quit?
@@ -62,5 +63,21 @@ Alarm::CallBack()
 		interrupt->YieldOnReturn();
 	}
     }
+}
+            timer->Disable(); // turn off the timer
+        }
+        else {
+            interrupt->YieldOnReturn(); // there's someone to preempt
+        }
+    }
+}
+
+void Alarm::WaitUntil(int x) {
+    IntStatus oldLevel = kernel->interrupt->SetLevel(IntOff);
+    Thread* t = kernel->currentThread;
+
+    cout << "Alarm::waitUntil go sleep" << endl;
+    sleeper.napTime(t, x);
+    kernel->interrupt->SetLevel(oldLevel);
 }
 

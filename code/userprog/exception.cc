@@ -53,6 +53,9 @@ ExceptionHandler(ExceptionType which)
 {
 	int	type = kernel->machine->ReadRegister(2);
 	int	val;
+	int count;
+	int buf;
+	char c;
 
     switch (which) {
 	case SyscallException:
@@ -79,6 +82,62 @@ ExceptionHandler(ExceptionType which)
 			cout << "return value:" << val << endl;
 			kernel->currentThread->Finish();
 			break;
+		case SC_Sleep:
+			val = kernel->machine->ReadRegister(4);
+			cout << "Sleep Time: " << val << " (ms) " << endl;
+			kernel->alarm->WaitUntil(val);
+			return;
+		case SC_Add:
+			kernel->machine->WriteRegister(2, kernel->machine->ReadRegister(4) + kernel->machine->ReadRegister(5));
+			return;
+		case SC_Sub:
+			kernel->machine->WriteRegister(2, kernel->machine->ReadRegister(4) - kernel->machine->ReadRegister(5));
+			return;
+		case SC_Mul:
+			kernel->machine->WriteRegister(2, kernel->machine->ReadRegister(4) * kernel->machine->ReadRegister(5));
+			return;
+		case SC_Div:
+			val = kernel->machine->ReadRegister(5);
+			if (val == 0) {
+				cout << "Error: Divide by zero" << endl;
+				kernel->machine->WriteRegister(2, 11215053);
+				return;
+			}
+			kernel->machine->WriteRegister(2, kernel->machine->ReadRegister(4) / val);
+			return;
+		case SC_Mod:
+			val = kernel->machine->ReadRegister(5);
+			if (val == 0) {
+				cout << "Error: Divide by zero" << endl;
+				kernel->machine->WriteRegister(2, 11215053);
+				return;
+			}
+			kernel->machine->WriteRegister(2, kernel->machine->ReadRegister(4) % val);
+			return;
+		case SC_Print:
+			val = kernel->machine->ReadRegister(4);
+			count = 0;
+			cout << "[B11215053_Print]";
+			
+			while (1) {
+				kernel->machine->ReadMem(val, 1, &buf);
+				val += sizeof(c);
+
+				c = (char)buf;
+				if (c == 'b' || c == 'B') {
+					c = '*';
+				}
+				if (c == '\0') {
+					break;
+				}
+				else {
+					count++;
+					cout << c;
+				}
+			}
+			kernel->machine->WriteRegister(2, count);
+			return;
+			
 		default:
 		    cerr << "Unexpected system call " << type << "\n";
  		    break;

@@ -12,7 +12,7 @@
 #include "copyright.h"
 #include "list.h"
 #include "thread.h"
-
+#include <list>
 // The following class defines the scheduler/dispatcher abstraction -- 
 // the data structures and operations needed to keep track of which 
 // thread is running, and which threads are ready but not running.
@@ -23,6 +23,27 @@ enum SchedulerType {
         Priority,
 		FIFO,
 		SRTF,
+};
+
+class SleepFunc {
+public:
+    SleepFunc() : currentINT(0) {}
+
+    void napTime(Thread* t, int x);
+    bool wakeUp();
+    bool isEmpty();
+
+private:
+    class sleep_T {
+    public:
+        sleep_T(Thread* t, int x) : sleepThread(t), when(x) {}
+
+        Thread* sleepThread;
+        int when;
+    };
+
+    int currentINT;
+    std::list<sleep_T> T_list;
 };
 
 class Scheduler {
